@@ -15,6 +15,13 @@ blogPostSchema.virtual('authorName').get(function() {
   return `${this.author.firstName} ${this.author.lastName}`.trim();
 });
 
+blogPostSchema.virtual('authorName').set(function(author) {
+  this.author = {
+    firstName: author.split(" ")[0], 
+    lastName: author.split(" ")[1]
+  };
+});
+
 blogPostSchema.methods.apiRepr = function() {
   return {
     id: this._id,
