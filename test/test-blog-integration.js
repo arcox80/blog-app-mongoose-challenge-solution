@@ -97,10 +97,7 @@ describe('Blog API resource', function () {
   describe('POST endpoint', function () {
     it('should add a new post', function () {
       const newPost = {
-        author: {
-          firstName: 'Andrew',
-          lastName: 'Cox'
-        },
+        authorName: 'Andrew Cox',
         content: 'Here is some text for a new post.',
         title: 'Title for a Fake Test Post'
       };
@@ -114,15 +111,13 @@ describe('Blog API resource', function () {
           res.body.should.be.a('object');
           res.body.should.include.keys('id', 'author', 'content', 'title', 'created');
           res.body.id.should.not.be.null;
-          res.body.author.should.equal(
-            `${newPost.author.firstName} ${newPost.author.lastName}`);
+          res.body.author.should.equal(newPost.authorName);
           res.body.content.should.equal(newPost.content);
           res.body.title.should.equal(newPost.title);
           return BlogPost.findById(res.body.id).exec();
         })
         .then(function (post) {
-          post.author.firstName.should.equal(newPost.author.firstName);
-          post.author.lastName.should.equal(newPost.author.lastName);
+          post.authorName.should.equal(newPost.authorName);
           post.content.should.equal(newPost.content);
           post.title.should.equal(newPost.title);
         });
